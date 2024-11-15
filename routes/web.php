@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\TeacherMiddleware;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('website');
@@ -28,4 +30,12 @@ Route::prefix('teacher')->group(function () {
    Route::post('logut' , [TeacherController::class,'logout'])->name('teacher.logout');
 });
 
+
+Route::prefix('admin')->group(function () { 
+    Route::get('login', [AdminController::class,'ShowLoginFrom'])->name('admin.login');
+    Route::post('login/store', [AdminController::class,'login'])->name('admin.login.store');
+    Route::get('dashboard', [AdminController::class,'dashboard'])->name(name: 'admin.dashboard')->middleware('admin');
+
+
+});
 require __DIR__.'/auth.php';
